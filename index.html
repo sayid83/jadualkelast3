@@ -100,7 +100,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 360px;  /* masih membenarkan skrol jika perlu */
+      min-width: 360px;
       font-size: 0.85rem;
     }
 
@@ -127,7 +127,7 @@
       font-weight: 700;
       color: #0d4b63;
       text-align: center;
-      white-space: normal;      /* benarkan wrap pada mobile */
+      white-space: normal;
       word-break: break-word;
       border-right: 2px solid #90c0d6;
       width: 105px;
@@ -136,25 +136,25 @@
       line-height: 1.3;
     }
 
-    /* dropdown selesa untuk sentuhan jari */
+    /* dropdown tanpa anak panah, hanya kotak kosong */
     select {
       width: 100%;
       border: 2px solid #b8d9ed;
       border-radius: 40px;
-      padding: 14px 6px 14px 10px;   /* lebih tinggi untuk mobile */
+      padding: 14px 6px 14px 10px;
       background-color: white;
       font-family: 'Quicksand', sans-serif;
       font-weight: 600;
       color: #174d63;
       font-size: 0.85rem;
       cursor: pointer;
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23197a9e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      background-size: 18px;
-      min-height: 48px;             /* saiz sentuhan minima */
+      appearance: none;           /* padam anak panah asal */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      /* langsung tiada background-image */
+      min-height: 48px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      text-align: center;
     }
 
     select:hover {
@@ -167,7 +167,12 @@
       box-shadow: 0 0 0 3px #ffe6bf;
     }
 
-    /* footer dan butang */
+    /* opsyen kosong akan kelihatan samar */
+    option {
+      background: white;
+      color: #174d63;
+    }
+
     .footer-note {
       display: flex;
       flex-wrap: wrap;
@@ -221,7 +226,6 @@
       margin-bottom: 4px;
     }
 
-    /* penambahbaikan untuk skrin sangat kecil (bawah 400px) */
     @media (max-width: 420px) {
       h1 { font-size: 1.5rem; }
       .subhead { font-size: 0.95rem; }
@@ -241,14 +245,14 @@
 <div class="page-wrapper">
   <div class="header-card">
     <h1>🗓️ Jadual Waktu Tahun 3</h1>
-    <div class="subhead">SK Subang Bestari 2 · sesi petang (mobile optimized)</div>
+    <div class="subhead">SK Subang Bestari 2 · sesi petang (kosong tanpa anak panah)</div>
   </div>
 
   <div id="jadual-dinamis" class="jadual-container"></div>
 
   <div class="footer-note">
     <div class="small-note">
-      <span>👆</span> Klik dropdown & pilih subjek
+      <span>👆</span> Klik kotak kosong & pilih subjek
     </div>
     <button class="btn-reset" id="resetBtn">⟲ Set semula semua</button>
   </div>
@@ -297,27 +301,32 @@
       return slot;
     }
 
-    // masa ikut keperluan
     const slotIsninKhamis = generateTimeSlots('1:10 ptg', '6:10 ptg', 30); // 10 slot
     const slotJumaat = generateTimeSlots('2:15 ptg', '6:15 ptg', 30);      // 8 slot
 
-    // subjek lalai ringkas (berdasarkan hari & indeks)
-    function getDefaultSubject(day, index) {
-      const base = (day.charCodeAt(0) + index * 3) % subjekList.length;
-      return subjekList[base];
-    }
+    // subjek lalai tidak digunakan lagi – kita nak kosong
+    // function getDefaultSubject tidak diperlukan, tetapi kita akan buat dropdown dengan pilihan kosong.
 
-    // buat dropdown select dengan opsyen
-    function buatSelect(subjekDipilih) {
+    // buat dropdown select dengan opsyen: pilihan pertama kosong, kemudian semua subjek
+    function buatSelect() {
       const select = document.createElement('select');
+      
+      // option kosong (placeholder)
+      const optionKosong = document.createElement('option');
+      optionKosong.value = '';
+      optionKosong.textContent = '';   // benar-benar kosong
+      select.appendChild(optionKosong);
+
+      // tambah semua subjek
       subjekList.forEach(sbj => {
         const opt = document.createElement('option');
         opt.value = sbj;
         opt.textContent = sbj;
-        if (sbj === subjekDipilih) opt.selected = true;
         select.appendChild(opt);
       });
-      select.setAttribute('data-default', subjekDipilih);
+
+      // set data-default kepada kosong (supaya reset ke pilihan kosong)
+      select.setAttribute('data-default', '');
       return select;
     }
 
@@ -356,8 +365,7 @@
 
         hariArray.forEach(hari => {
           const td = document.createElement('td');
-          const subjekLalai = getDefaultSubject(hari, idxBaris);
-          const select = buatSelect(subjekLalai);
+          const select = buatSelect();  // dropdown dengan pilihan kosong
           td.appendChild(select);
           tr.appendChild(td);
         });
@@ -376,18 +384,13 @@
     container.appendChild(jadual1);
     container.appendChild(jadual2);
 
-    // fungsi reset semua dropdown
+    // fungsi reset semua dropdown: pilih option pertama (kosong)
     function resetSemua() {
       const semuaSelect = document.querySelectorAll('select');
       semuaSelect.forEach(sel => {
-        const defaultValue = sel.getAttribute('data-default');
-        if (defaultValue) {
-          for (let opt of sel.options) {
-            if (opt.value === defaultValue) {
-              opt.selected = true;
-              break;
-            }
-          }
+        // pilih option pertama (index 0) yang kosong
+        if (sel.options.length > 0) {
+          sel.selectedIndex = 0;
         }
       });
     }
@@ -395,6 +398,6 @@
     document.getElementById('resetBtn').addEventListener('click', resetSemua);
   })();
 </script>
-<!-- Kod ini sudah diubah suai untuk penggunaan mobile yang selesa: dropdown besar, font boleh baca, ruang sentuhan luas. -->
+<!-- Kini dropdown dipaparkan kosong, tiada anak panah, tetapi masih berfungsi untuk memilih subjek. -->
 </body>
 </html>
