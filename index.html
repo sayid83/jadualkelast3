@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
   <title>Jadual Waktu Tahun 3 · SK Subang Bestari 2</title>
-  <!-- Font moden & ceria -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -15,26 +14,400 @@
     }
 
     body {
-      background: linear-gradient(145deg, #f4f9ff 0%, #e1f0fa 100%);
+      background: linear-gradient(145deg, #eef8ff 0%, #d4e9fa 100%);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px 12px;
+      padding: 20px 12px;
     }
 
-    .card {
-      max-width: 1200px;
+    .page-wrapper {
+      max-width: 1300px;
       width: 100%;
-      background-color: #ffffffdd;
-      backdrop-filter: blur(4px);
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow: 0 20px 40px -10px rgba(27, 55, 96, 0.25);
-      border-radius: 32px;
-      padding: 24px 20px 32px 20px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
     }
 
+    .header-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(6px);
+      border-radius: 40px 40px 30px 30px;
+      padding: 24px 22px 10px 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 15px 30px rgba(13, 67, 97, 0.15);
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0b4b5e;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .subhead {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2a7f9c;
+      margin: 8px 0 10px 0;
+      border-left: 7px solid #ffaa3a;
+      padding-left: 20px;
+      background: linear-gradient(to right, #ffffff, transparent);
+      border-radius: 0 30px 30px 0;
+      display: inline-block;
+      padding-right: 30px;
+    }
+
+    .jadual-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .jadual-kad {
+      flex: 1 1 500px;
+      min-width: 320px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(4px);
+      border-radius: 32px;
+      padding: 20px 16px 24px 16px;
+      box-shadow: 0 20px 30px -8px rgba(2, 70, 110, 0.2);
+      border: 1px solid #cae2f0;
+    }
+
+    .jadual-kad h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #0f4d67;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 3px dashed #ffb259;
+      padding-bottom: 8px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 24px;
+      background: #e5f2fb;
+      border: 1px solid #aacce2;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 400px;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background-color: #197a9e;
+      color: white;
+      font-weight: 700;
+      padding: 14px 6px;
+      text-align: center;
+      border-right: 1px solid #5fa9c2;
+      white-space: nowrap;
+    }
+
+    th:last-child {
+      border-right: none;
+    }
+
+    td {
+      border-bottom: 1px solid #bdd8e9;
+      border-right: 1px solid #c9deec;
+      padding: 6px 4px;
+      vertical-align: middle;
+      background-color: #ffffffd6;
+    }
+
+    td:last-child {
+      border-right: none;
+    }
+
+    /* Lajur masa */
+    td.waktu-col {
+      background-color: #dff0f9;
+      font-weight: 600;
+      color: #0d4b63;
+      text-align: center;
+      white-space: nowrap;
+      border-right: 2px solid #90c0d6;
+      width: 120px;
+      font-size: 0.85rem;
+    }
+
+    /* dropdown dalam sel */
+    select {
+      width: 100%;
+      border: 2px solid #b1d7e9;
+      border-radius: 30px;
+      padding: 12px 8px;
+      background-color: white;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      color: #174d63;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.1s;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23197a9e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 16px;
+    }
+
+    select:hover {
+      border-color: #ffa726;
+      background-color: #fffaf2;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #f78c2c;
+      box-shadow: 0 0 0 3px #ffe0b0;
+    }
+
+    .footer-note {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 28px;
+      gap: 15px;
+    }
+
+    .btn-reset {
+      background-color: #f9a826;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 60px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1a4d5e;
+      box-shadow: 0 7px 0 #b16200, 0 12px 25px -8px #fa9f2e;
+      cursor: pointer;
+      transition: 0.1s ease;
+      border: 2px solid #ffd78b;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-reset:active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 #b16200, 0 8px 20px -5px #fa9f2e;
+    }
+
+    .small-note {
+      background: #ebf7fe;
+      padding: 12px 22px;
+      border-radius: 40px;
+      color: #135e7a;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid #aed1e8;
+    }
+
+    .small-note span {
+      background-color: #faa41b;
+      color: #0b3a44;
+      padding: 4px 16px;
+      border-radius: 40px;
+      margin-right: 10px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 650px) {
+      h1 { font-size: 1.7rem; }
+      .subhead { font-size: 1rem; }
+      .jadual-kad h2 { font-size: 1.4rem; }
+      select { padding: 10px 6px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="header-card">
+    <h1>🗓️ Jadual Waktu Tahun 3</h1>
+    <div class="subhead">SK Subang Bestari 2 · sesi petang (dikemaskini)</div>
+  </div>
+
+  <!-- kedua-dua jadual akan diisi oleh JavaScript -->
+  <div id="jadual-dinamis" class="jadual-container"></div>
+
+  <div class="footer-note">
+    <div class="small-note">
+      <span>📋</span> Pilih subjek daripada dropdown — klik & ubah
+    </div>
+    <button class="btn-reset" id="resetBtn">⟲ Set semula semua jadual</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- senarai subjek (boleh ditambah / diubah) ----------
+    const subjekList = [
+      "Bahasa Melayu", "English", "Matematik", "Sains",
+      "Pendidikan Islam", "Pendidikan Moral", "Pendidikan Jasmani",
+      "Pendidikan Kesihatan", "Sejarah", "Geografi", "Bahasa Arab",
+      "Bahasa Cina", "Bahasa Tamil", "RBT", "Muzik", "Seni Visual",
+      "Kajian Tempatan", "KA (Agama)", "Rehat", "Kelas", "Tuisyen",
+      "Bimbingan", "Kejohanan", "Persediaan"
+    ];
+
+    // ---------- fungsi jana slot masa (format 12 jam, ptg/tgh) ----------
+    function generateTimeSlots(mulaStr, akhirStr, intervalMin = 30) {
+      // mulaStr dan akhirStr dalam format "2:15 ptg" atau "1:10 ptg"
+      // tukar ke minit sejak tengah hari untuk kiraan mudah
+      function parseMasa(str) {
+        str = str.toLowerCase().replace(/\./g, '');
+        let [time, period] = str.split(' ');
+        let [hour, minute] = time.split(':').map(Number);
+        if (period === 'ptg' || period === 'tgh' || period.includes('ptg')) {
+          if (hour !== 12) hour += 12; // 12 ptg kekal 12
+        }
+        // tgh (12:00) dianggap 12:00
+        return hour * 60 + minute;
+      }
+
+      function formatMasa(minit) {
+        let hour24 = Math.floor(minit / 60);
+        let minute = minit % 60;
+        let period = (hour24 >= 12) ? 'ptg' : 'pg';
+        let hour12 = hour24 % 12;
+        if (hour12 === 0) hour12 = 12;
+        return `${hour12}:${minute.toString().padStart(2, '0')} ${period}`;
+      }
+
+      let mula = parseMasa(mulaStr);
+      let akhir = parseMasa(akhirStr);
+      let slot = [];
+      for (let t = mula; t < akhir; t += intervalMin) {
+        let t2 = t + intervalMin;
+        slot.push(`${formatMasa(t)} – ${formatMasa(t2)}`);
+      }
+      return slot;
+    }
+
+    // masa untuk Isnin - Khamis
+    const slotIsninKhamis = generateTimeSlots('1:10 ptg', '6:10 ptg', 30); // 10 slot
+    // masa untuk Jumaat
+    const slotJumaat = generateTimeSlots('2:15 ptg', '6:15 ptg', 30);      // 8 slot
+
+    // ---------- fungsi dapat subjek lalai berdasarkan hari dan masa (corak ringkas) ----------
+    function getDefaultSubject(day, index) {
+      // putaran mudah: guna indeks baris + nama hari
+      const base = (day.charCodeAt(0) + index * 3) % subjekList.length;
+      return subjekList[base];
+    }
+
+    // ---------- bina elemen select dengan semua option ----------
+    function buatSelect(subjekDipilih) {
+      const select = document.createElement('select');
+      subjekList.forEach(sbj => {
+        const opt = document.createElement('option');
+        opt.value = sbj;
+        opt.textContent = sbj;
+        if (sbj === subjekDipilih) opt.selected = true;
+        select.appendChild(opt);
+      });
+      // simpan nilai asal untuk reset
+      select.setAttribute('data-default', subjekDipilih);
+      return select;
+    }
+
+    // ---------- bina satu jadual lengkap ----------
+    function binaJadual(hariArray, slotMasaArray, tajuk) {
+      const kad = document.createElement('div');
+      kad.className = 'jadual-kad';
+
+      const h2 = document.createElement('h2');
+      h2.innerHTML = tajuk;
+      kad.appendChild(h2);
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper';
+      const table = document.createElement('table');
+
+      // header
+      const thead = document.createElement('thead');
+      const trHead = document.createElement('tr');
+      const thMasa = document.createElement('th'); thMasa.textContent = '⏰ Masa'; trHead.appendChild(thMasa);
+      hariArray.forEach(hari => {
+        const th = document.createElement('th'); th.textContent = hari; trHead.appendChild(th);
+      });
+      thead.appendChild(trHead);
+      table.appendChild(thead);
+
+      // body
+      const tbody = document.createElement('tbody');
+      slotMasaArray.forEach((waktu, idxBaris) => {
+        const tr = document.createElement('tr');
+
+        // sel waktu
+        const tdWaktu = document.createElement('td');
+        tdWaktu.className = 'waktu-col';
+        tdWaktu.textContent = waktu;
+        tr.appendChild(tdWaktu);
+
+        // sel untuk setiap hari
+        hariArray.forEach(hari => {
+          const td = document.createElement('td');
+          const subjekLalai = getDefaultSubject(hari, idxBaris);
+          const select = buatSelect(subjekLalai);
+          td.appendChild(select);
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      wrapper.appendChild(table);
+      kad.appendChild(wrapper);
+      return kad;
+    }
+
+    // ---------- bina kedua-dua jadual dan masukkan ke dalam container ----------
+    const container = document.getElementById('jadual-dinamis');
+
+    // jadual Isnin - Khamis
+    const jadual1 = binaJadual(['Isnin', 'Selasa', 'Rabu', 'Khamis'], slotIsninKhamis, '🗓️ Isnin–Khamis (1:10 ptg – 6:10 ptg)');
+    // jadual Jumaat
+    const jadual2 = binaJadual(['Jumaat'], slotJumaat, '⏳ Jumaat (2:15 ptg – 6:15 ptg)');
+
+    container.appendChild(jadual1);
+    container.appendChild(jadual2);
+
+    // ---------- fungsi reset: kembalikan semua dropdown ke data-default ----------
+    function resetSemua() {
+      const semuaSelect = document.querySelectorAll('select');
+      semuaSelect.forEach(sel => {
+        const defaultValue = sel.getAttribute('data-default');
+        if (defaultValue) {
+          // cari option dengan nilai tersebut
+          for (let opt of sel.options) {
+            if (opt.value === defaultValue) {
+              opt.selected = true;
+              break;
+            }
+          }
+        }
+      });
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', resetSemua);
+
+    // (Optional) apabila dropdown berubah, kita tidak perlu update data-default
+    // kerana reset hanya berpandukan nilai asal yang tersimpan.
+  })();
+</script>
+<!-- nota: semua teks BM, dropdown penuh, mobile responsif -->
+</body>
+</html>
     h1 {
       font-size: 1.9rem;
       font-weight: 700;
